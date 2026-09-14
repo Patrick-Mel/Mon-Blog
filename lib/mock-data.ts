@@ -373,7 +373,7 @@ export const MOCK_AFFILIATE_LINKS: AffiliateLink[] = [
 
 export const MOCK_MONETIZATION_CONFIG: MonetizationConfig = {
   pubs_actives: {
-    header: true,
+    header: false,
     sidebar: true,
     in_article: true,
     bottom_article: true
