@@ -8,7 +8,7 @@ export default function ServicesPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [serviceType, setServiceType] = useState('dev_web');
-  const [budget, setBudget] = useState('1000-3000');
+  const [budget, setBudget] = useState('100k-300k');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -35,6 +35,7 @@ export default function ServicesPage() {
       icon: Code,
       title: 'Développement Web Full-Stack',
       description: 'Conception de SaaS, blogs ou applications complexes haute performance.',
+      tarif: 'À partir de 150 000 FCFA',
       techs: ['Next.js (App Router)', 'Supabase RLS', 'TypeScript', 'Tailwind CSS', 'Python / Django'],
       badge: 'Le plus demandé',
       color: '#2563EB',
@@ -44,6 +45,7 @@ export default function ServicesPage() {
       icon: Palette,
       title: 'UI/UX Design & Graphisme',
       description: 'Design systems sur-mesure, maquettes Figma & visuels Photoshop percutants.',
+      tarif: 'À partir de 75 000 FCFA',
       techs: ['Photoshop CS/CC', 'Wireframing Figma', 'Design Tokens HSL', 'Micro-animations', 'Dark Mode'],
       badge: 'Créatif',
       color: '#DB2777',
@@ -53,6 +55,7 @@ export default function ServicesPage() {
       icon: Zap,
       title: 'Audit Code & Performance SEO',
       description: 'Optimisation du temps de chargement, révision d\'architecture et bonnes pratiques RLS.',
+      tarif: 'À partir de 50 000 FCFA',
       techs: ['Lighthouse 100/100', 'Optimisation SQL', 'Security Audit RLS', 'Vercel Deployment'],
       badge: 'Expertise',
       color: '#059669',
@@ -96,11 +99,16 @@ export default function ServicesPage() {
               )}
 
               <div>
-                <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 shadow-md"
-                  style={{ backgroundColor: `${s.color}15`, color: s.color }}
-                >
-                  <Icon className="w-6 h-6" />
+                <div className="flex items-center justify-between mb-6">
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-md"
+                    style={{ backgroundColor: `${s.color}15`, color: s.color }}
+                  >
+                    <Icon className="w-6 h-6" />
+                  </div>
+                  <span className="text-[11px] font-mono font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full">
+                    {s.tarif}
+                  </span>
                 </div>
 
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -199,16 +207,16 @@ export default function ServicesPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-800 dark:text-slate-300 mb-2">Budget approximatif</label>
+                <label className="block text-xs font-semibold text-slate-800 dark:text-slate-300 mb-2">Budget approximatif (FCFA)</label>
                 <select
                   value={budget}
                   onChange={e => setBudget(e.target.value)}
                   className="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-sm text-slate-900 dark:text-white focus:border-blue-500 focus:outline-none"
                 >
-                  <option value="<1000">&lt; 1 000 €</option>
-                  <option value="1000-3000">1 000 € - 3 000 €</option>
-                  <option value="3000-5000">3 000 € - 5 000 €</option>
-                  <option value=">5000">&gt; 5 000 €</option>
+                  <option value="<100k">&lt; 100 000 FCFA</option>
+                  <option value="100k-300k">100 000 FCFA - 300 000 FCFA</option>
+                  <option value="300k-500k">300 000 FCFA - 500 000 FCFA</option>
+                  <option value=">500k">&gt; 500 000 FCFA</option>
                 </select>
               </div>
             </div>
