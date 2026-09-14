@@ -330,8 +330,17 @@ export async function updateAuthorProfile(author: Author): Promise<void> {
   if (isSupabaseConfigured()) {
     try {
       const supabase = createBrowserClient();
-      await supabase.from('auteurs').upsert({
-        id: author.id || undefined,
+      const isUUID = author.id && !author.id.startsWith('aut-');
+      let targetUUID = isUUID ? author.id : undefined;
+
+      if (!targetUUID) {
+        const { data: existing } = await supabase.from('auteurs').select('id').limit(1).single();
+        if (existing && existing.id) {
+          targetUUID = existing.id;
+        }
+      }
+
+      const payload: any = {
         nom: author.nom,
         slug: author.slug || 'alex-vance',
         email: author.email || 'contact@alexvance.dev',
@@ -340,7 +349,19 @@ export async function updateAuthorProfile(author: Author): Promise<void> {
         titre_professionnel: author.titre_professionnel,
         reseaux_sociaux: author.reseaux_sociaux,
         updated_at: new Date().toISOString(),
-      });
+      };
+
+      if (targetUUID) {
+        payload.id = targetUUID;
+      }
+
+      const { data, error } = await supabase.from('auteurs').upsert(payload).select().single();
+      if (!error && data) {
+        localAuthorStore = { ...data };
+        return;
+      } else if (error) {
+        console.error('Erreur Supabase updateAuthorProfile upsert:', error);
+      }
     } catch (e) {
       console.warn('Erreur Supabase updateAuthorProfile:', e);
     }
