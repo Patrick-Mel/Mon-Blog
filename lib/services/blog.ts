@@ -390,8 +390,92 @@ export async function getAllArticlesForAdmin(): Promise<Article[]> {
 
 export async function saveArticle(article: Partial<Article>): Promise<Article> {
   const isUUID = article.id && !article.id.startsWith('art-');
-  const targetId = isUUID ? article.id : undefined;
+  let targetId = isUUID ? article.id : undefined;
 
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+
+      // If no valid UUID targetId, check if article with same slug exists in Supabase
+      if (!targetId && article.slug) {
+        const { data: existing } = await supabase.from('articles').select('id').eq('slug', article.slug).single();
+        if (existing && existing.id) {
+          targetId = existing.id;
+        }
+      }
+
+      // Resolve valid category UUID if mock category ID was passed
+      let validCategoryId: string | null | undefined = article.category_id;
+      if (validCategoryId && validCategoryId.startsWith('cat-')) {
+        const mockCat = MOCK_CATEGORIES.find(c => c.id === validCategoryId);
+        if (mockCat) {
+          const { data: realCat } = await supabase.from('categories').select('id').eq('slug', mockCat.slug).single();
+          validCategoryId = realCat ? realCat.id : null;
+        } else {
+          validCategoryId = null;
+        }
+      }
+
+      // Resolve author UUID from Supabase
+      const { data: authorData } = await supabase.from('auteurs').select('id').limit(1).single();
+      const validAuthorId = authorData ? authorData.id : null;
+
+      const articlePayload: any = {
+        titre: article.titre || 'Nouvel Article',
+        slug: article.slug || `article-${Date.now()}`,
+        extrait: article.extrait || '',
+        contenu: typeof article.contenu === 'string' ? article.contenu : JSON.stringify(article.contenu || ''),
+        image_couverture: article.image_couverture || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+        statut: article.statut || 'publie',
+        mise_en_avant: article.mise_en_avant || false,
+        temps_lecture_minutes: article.temps_lecture_minutes || 5,
+        sponsorise: article.sponsorise || false,
+        sponsor_nom: article.sponsor_nom || '',
+        sponsor_lien: article.sponsor_lien || '',
+        seo_title: article.seo_title || article.titre,
+        seo_description: article.seo_description || article.extrait,
+        category_id: validCategoryId,
+        auteur_id: validAuthorId,
+        updated_at: new Date().toISOString(),
+      };
+
+      if (targetId) {
+        articlePayload.id = targetId;
+        const { data, error } = await supabase
+          .from('articles')
+          .update(articlePayload)
+          .eq('id', targetId)
+          .select('*, category:categories(*), auteur:auteurs(*)')
+          .single();
+
+        if (!error && data) {
+          const idx = localArticlesStore.findIndex(a => a.id === article.id || a.slug === article.slug);
+          if (idx !== -1) localArticlesStore[idx] = data as Article;
+          else localArticlesStore.unshift(data as Article);
+          return data as Article;
+        } else if (error) {
+          console.error('Erreur Supabase update article:', error);
+        }
+      } else {
+        const { data, error } = await supabase
+          .from('articles')
+          .insert([articlePayload])
+          .select('*, category:categories(*), auteur:auteurs(*)')
+          .single();
+
+        if (!error && data) {
+          localArticlesStore.unshift(data as Article);
+          return data as Article;
+        } else if (error) {
+          console.error('Erreur Supabase insert article:', error);
+        }
+      }
+    } catch (e) {
+      console.warn('Erreur Supabase saveArticle, fallback mémoire:', e);
+    }
+  }
+
+  // Memory fallback
   const articlePayload: any = {
     titre: article.titre || 'Nouvel Article',
     slug: article.slug || `article-${Date.now()}`,
@@ -406,47 +490,12 @@ export async function saveArticle(article: Partial<Article>): Promise<Article> {
     sponsor_lien: article.sponsor_lien || '',
     seo_title: article.seo_title || article.titre,
     seo_description: article.seo_description || article.extrait,
-    category_id: article.category_id && !article.category_id.startsWith('cat-') ? article.category_id : null,
+    category_id: article.category_id,
     updated_at: new Date().toISOString(),
   };
 
-  if (targetId) {
-    articlePayload.id = targetId;
-  }
-
-  if (isSupabaseConfigured()) {
-    try {
-      const supabase = createBrowserClient();
-      if (targetId) {
-        const { data, error } = await supabase
-          .from('articles')
-          .update(articlePayload)
-          .eq('id', targetId)
-          .select('*, category:categories(*), auteur:auteurs(*)')
-          .single();
-
-        if (!error && data) {
-          return data as Article;
-        }
-      } else {
-        const { data, error } = await supabase
-          .from('articles')
-          .insert([articlePayload])
-          .select('*, category:categories(*), auteur:auteurs(*)')
-          .single();
-
-        if (!error && data) {
-          return data as Article;
-        }
-      }
-    } catch (e) {
-      console.warn('Erreur Supabase saveArticle, fallback mémoire:', e);
-    }
-  }
-
-  // Memory fallback
   if (article.id) {
-    const idx = localArticlesStore.findIndex(a => a.id === article.id);
+    const idx = localArticlesStore.findIndex(a => a.id === article.id || a.slug === article.slug);
     if (idx !== -1) {
       localArticlesStore[idx] = {
         ...localArticlesStore[idx],
@@ -477,12 +526,85 @@ export async function deleteArticle(id: string): Promise<void> {
   if (isSupabaseConfigured()) {
     try {
       const supabase = createBrowserClient();
-      await supabase.from('articles').delete().eq('id', id);
+      const isUUID = id && !id.startsWith('art-');
+      if (isUUID) {
+        await supabase.from('articles').delete().eq('id', id);
+      } else {
+        const target = localArticlesStore.find(a => a.id === id);
+        if (target && target.slug) {
+          await supabase.from('articles').delete().eq('slug', target.slug);
+        }
+      }
     } catch (e) {
       console.warn('Erreur Supabase deleteArticle:', e);
     }
   }
   localArticlesStore = localArticlesStore.filter(a => a.id !== id);
+}
+
+export async function saveCategory(category: Partial<Category>): Promise<Category> {
+  const payload = {
+    nom: category.nom || 'Nouvelle Catégorie',
+    slug: category.slug || category.nom?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `cat-${Date.now()}`,
+    description: category.description || '',
+    couleur: category.couleur || '#3B82F6',
+  };
+
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      const { data, error } = await supabase.from('categories').upsert(payload, { onConflict: 'slug' }).select().single();
+      if (!error && data) {
+        const idx = MOCK_CATEGORIES.findIndex(c => c.slug === payload.slug);
+        if (idx !== -1) MOCK_CATEGORIES[idx] = { ...data, articles_count: MOCK_CATEGORIES[idx].articles_count } as Category;
+        else MOCK_CATEGORIES.push({ ...data, articles_count: 0 } as Category);
+        return data as Category;
+      }
+    } catch (e) {
+      console.warn('Erreur Supabase saveCategory:', e);
+    }
+  }
+
+  const newCat: Category = {
+    id: `cat-${Date.now()}`,
+    ...payload,
+    articles_count: 0,
+  } as Category;
+  const idx = MOCK_CATEGORIES.findIndex(c => c.slug === payload.slug);
+  if (idx !== -1) MOCK_CATEGORIES[idx] = newCat;
+  else MOCK_CATEGORIES.push(newCat);
+  return newCat;
+}
+
+export async function saveTag(tag: Partial<Tag>): Promise<Tag> {
+  const payload = {
+    nom: tag.nom || 'nouveau-tag',
+    slug: tag.slug || tag.nom?.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || `tag-${Date.now()}`,
+  };
+
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      const { data, error } = await supabase.from('tags').upsert(payload, { onConflict: 'slug' }).select().single();
+      if (!error && data) {
+        const idx = MOCK_TAGS.findIndex(t => t.slug === payload.slug);
+        if (idx !== -1) MOCK_TAGS[idx] = data as Tag;
+        else MOCK_TAGS.push(data as Tag);
+        return data as Tag;
+      }
+    } catch (e) {
+      console.warn('Erreur Supabase saveTag:', e);
+    }
+  }
+
+  const newTag: Tag = {
+    id: `tag-${Date.now()}`,
+    ...payload,
+  } as Tag;
+  const idx = MOCK_TAGS.findIndex(t => t.slug === payload.slug);
+  if (idx !== -1) MOCK_TAGS[idx] = newTag;
+  else MOCK_TAGS.push(newTag);
+  return newTag;
 }
 
 export async function getAllCommentsForAdmin(): Promise<Comment[]> {
