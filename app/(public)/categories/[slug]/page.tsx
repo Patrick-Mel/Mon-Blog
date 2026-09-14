@@ -29,8 +29,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         >
           Catégorie ({total} articles)
         </span>
-        <h1 className="text-3xl sm:text-5xl font-black text-white mb-3">{category.nom}</h1>
-        <p className="text-slate-300 text-sm sm:text-base leading-relaxed">{category.description}</p>
+        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white mb-3">{category.nom}</h1>
+        <p className="text-slate-700 dark:text-slate-300 text-sm sm:text-base leading-relaxed">{category.description}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -18,7 +18,7 @@ export default async function TagPage({ params }: TagPageProps) {
         <span className="text-xs font-mono font-bold px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 mb-4 inline-block">
           #{slug} ({total} articles)
         </span>
-        <h1 className="text-3xl sm:text-5xl font-black text-white">Articles associés au tag</h1>
+        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white">Articles associés au tag</h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
