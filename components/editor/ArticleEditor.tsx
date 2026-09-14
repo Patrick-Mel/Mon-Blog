@@ -12,6 +12,8 @@ import { Bold, Italic, Code, Heading1, Heading2, List, Link as LinkIcon, Image a
 import { Article, Category } from '../../lib/types';
 import { saveArticle } from '../../lib/services/blog';
 
+import { ImageUploader } from '../admin/ImageUploader';
+
 const lowlight = createLowlight(common);
 
 interface ArticleEditorProps {
@@ -90,10 +92,11 @@ export function ArticleEditor({ initialArticle, categories }: ArticleEditorProps
 
     setIsSaving(false);
     setSavedSuccess(true);
+    router.refresh();
     setTimeout(() => {
       setSavedSuccess(false);
       router.push('/admin/articles');
-    }, 1200);
+    }, 1000);
   };
 
   return (
@@ -177,14 +180,13 @@ export function ArticleEditor({ initialArticle, categories }: ArticleEditorProps
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-end">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">URL Image de couverture</label>
-            <input
-              type="text"
+            <ImageUploader
               value={imageCouverture}
-              onChange={e => setImageCouverture(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-xs text-slate-900 dark:text-white"
+              onChange={setImageCouverture}
+              label="Image de couverture de l'article *"
+              description="Téléchargez une illustration depuis votre appareil ou collez un lien Web."
             />
           </div>
 
@@ -193,10 +195,10 @@ export function ArticleEditor({ initialArticle, categories }: ArticleEditorProps
             <select
               value={statut}
               onChange={e => setStatut(e.target.value as any)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-xs text-slate-900 dark:text-white"
+              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-800 text-xs text-slate-900 dark:text-white font-bold"
             >
-              <option value="brouillon">Brouillon</option>
-              <option value="publie">Publié</option>
+              <option value="publie">Publié (En ligne immédiatement)</option>
+              <option value="brouillon">Brouillon (Non visible au public)</option>
               <option value="archive">Archivé</option>
             </select>
           </div>

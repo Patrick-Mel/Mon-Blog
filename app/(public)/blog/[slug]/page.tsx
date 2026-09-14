@@ -10,6 +10,9 @@ import { CommentSection } from '../../../../components/blog/CommentSection';
 import { AdBanner } from '../../../../components/monetisation/AdBanner';
 import { ArticleCard } from '../../../../components/blog/ArticleCard';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface ArticlePageProps {
   params: Promise<{
     slug: string;

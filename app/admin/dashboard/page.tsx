@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { Eye, FileText, Users, DollarSign, Plus, TrendingUp, Sparkles } from 'lucide-react';
 import { getAdminStats } from '../../../lib/services/blog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function AdminDashboardPage() {
   const stats = await getAdminStats();
 

@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { Plus, Edit3, Eye, Sparkles } from 'lucide-react';
 import { getAllArticlesForAdmin } from '../../../lib/services/blog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function AdminArticlesListPage() {
   const articles = await getAllArticlesForAdmin();
 

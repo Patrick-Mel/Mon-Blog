@@ -4,6 +4,9 @@ import { Tag as TagIcon } from 'lucide-react';
 import { ArticleCard } from '../../../components/blog/ArticleCard';
 import { getArticles, getCategories, getTags } from '../../../lib/services/blog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface BlogPageProps {
   searchParams: Promise<{
     q?: string;

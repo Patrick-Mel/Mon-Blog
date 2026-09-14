@@ -6,6 +6,9 @@ import { NewsletterForm } from '../../components/shared/NewsletterForm';
 import { AdBanner } from '../../components/monetisation/AdBanner';
 import { getFeaturedArticles, getArticles, getCategories, getMonetizationConfig } from '../../lib/services/blog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function HomePage() {
   const featuredArticles = await getFeaturedArticles();
   const { articles: latestArticles } = await getArticles({ limit: 6 });

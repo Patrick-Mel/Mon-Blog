@@ -2,6 +2,9 @@ import React from 'react';
 import { Tag as TagIcon, Layers, Plus } from 'lucide-react';
 import { getCategories, getTags } from '../../../lib/services/blog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function AdminCategoriesTagsPage() {
   const categories = await getCategories();
   const tags = await getTags();

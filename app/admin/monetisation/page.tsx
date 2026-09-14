@@ -1,11 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { DollarSign, CheckCircle2, Save, ToggleLeft, ToggleRight, Sparkles, ExternalLink, ShieldCheck } from 'lucide-react';
 import { getMonetizationConfig, updateMonetizationConfig, getAdminStats } from '../../../lib/services/blog';
 import { MonetizationConfig } from '../../../lib/types';
 
 export default function AdminMonetizationPage() {
+  const router = useRouter();
   const [config, setConfig] = useState<MonetizationConfig | null>(null);
   const [stats, setStats] = useState<any>(null);
   const [isSaved, setIsSaved] = useState(false);
@@ -46,6 +48,7 @@ export default function AdminMonetizationPage() {
     if (!config) return;
     await updateMonetizationConfig(config);
     setIsSaved(true);
+    router.refresh();
     setTimeout(() => setIsSaved(false), 2000);
   };
 

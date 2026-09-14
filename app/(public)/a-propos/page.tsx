@@ -3,6 +3,9 @@ import Link from 'next/link';
 import { Mail, ExternalLink, Code, Layers, Palette, Terminal, Award } from 'lucide-react';
 import { getAuthorProfile } from '../../../lib/services/blog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function AboutPage() {
   const author = await getAuthorProfile();
 

@@ -2,6 +2,9 @@ import React from 'react';
 import { ArticleCard } from '../../../../components/blog/ArticleCard';
 import { getArticles } from '../../../../lib/services/blog';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 interface TagPageProps {
   params: Promise<{
     slug: string;
