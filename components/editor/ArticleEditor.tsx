@@ -29,7 +29,7 @@ export function ArticleEditor({ initialArticle, categories }: ArticleEditorProps
     initialArticle?.image_couverture || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80'
   );
   const [categoryId, setCategoryId] = useState(initialArticle?.category_id || categories[0]?.id || '');
-  const [statut, setStatut] = useState<'brouillon' | 'publie' | 'archive'>(initialArticle?.statut || 'brouillon');
+  const [statut, setStatut] = useState<'brouillon' | 'publie' | 'archive'>(initialArticle?.statut || 'publie');
   const [sponsorise, setSponsorise] = useState(initialArticle?.sponsorise || false);
   const [sponsorNom, setSponsorNom] = useState(initialArticle?.sponsor_nom || '');
   const [sponsorLien, setSponsorLien] = useState(initialArticle?.sponsor_lien || '');

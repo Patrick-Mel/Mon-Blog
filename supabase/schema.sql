@@ -215,49 +215,40 @@ DROP POLICY IF EXISTS "Lecture config monetisation" ON public.config_monetisatio
 DROP POLICY IF EXISTS "Admin full access config monetisation" ON public.config_monetisation;
 
 -- Articles
-CREATE POLICY "Lecture publique des articles publies" ON public.articles 
-  FOR SELECT USING (statut = 'publie' AND published_at <= NOW());
-
-CREATE POLICY "Admin full access articles" ON public.articles 
-  FOR ALL TO authenticated USING (true) WITH CHECK (true);
+DROP POLICY IF EXISTS "Public full access articles" ON public.articles;
+CREATE POLICY "Public full access articles" ON public.articles FOR ALL USING (true) WITH CHECK (true);
 
 -- Categories & Tags
-CREATE POLICY "Lecture publique categories" ON public.categories FOR SELECT USING (true);
-CREATE POLICY "Admin full access categories" ON public.categories FOR ALL TO authenticated USING (true);
+DROP POLICY IF EXISTS "Public full access categories" ON public.categories;
+CREATE POLICY "Public full access categories" ON public.categories FOR ALL USING (true) WITH CHECK (true);
 
-CREATE POLICY "Lecture publique tags" ON public.tags FOR SELECT USING (true);
-CREATE POLICY "Admin full access tags" ON public.tags FOR ALL TO authenticated USING (true);
+DROP POLICY IF EXISTS "Public full access tags" ON public.tags;
+CREATE POLICY "Public full access tags" ON public.tags FOR ALL USING (true) WITH CHECK (true);
 
-CREATE POLICY "Lecture publique article_tags" ON public.article_tags FOR SELECT USING (true);
-CREATE POLICY "Admin full access article_tags" ON public.article_tags FOR ALL TO authenticated USING (true);
+DROP POLICY IF EXISTS "Public full access article_tags" ON public.article_tags;
+CREATE POLICY "Public full access article_tags" ON public.article_tags FOR ALL USING (true) WITH CHECK (true);
 
 -- Auteurs
-CREATE POLICY "Lecture publique auteurs" ON public.auteurs FOR SELECT USING (true);
-CREATE POLICY "Admin full access auteurs" ON public.auteurs FOR ALL TO authenticated USING (true);
+DROP POLICY IF EXISTS "Public full access auteurs" ON public.auteurs;
+CREATE POLICY "Public full access auteurs" ON public.auteurs FOR ALL USING (true) WITH CHECK (true);
 
 -- Commentaires
-CREATE POLICY "Lecture publique commentaires approuves" ON public.commentaires 
-  FOR SELECT USING (statut = 'approuve');
-
-CREATE POLICY "Insertion publique commentaires" ON public.commentaires 
-  FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "Admin full access commentaires" ON public.commentaires 
-  FOR ALL TO authenticated USING (true);
+DROP POLICY IF EXISTS "Public full access commentaires" ON public.commentaires;
+CREATE POLICY "Public full access commentaires" ON public.commentaires FOR ALL USING (true) WITH CHECK (true);
 
 -- Newsletter
-CREATE POLICY "Insertion abonnes newsletter" ON public.newsletter_abonnes 
-  FOR INSERT WITH CHECK (true);
-
-CREATE POLICY "Admin full access newsletter" ON public.newsletter_abonnes 
-  FOR ALL TO authenticated USING (true);
+DROP POLICY IF EXISTS "Public full access newsletter" ON public.newsletter_abonnes;
+CREATE POLICY "Public full access newsletter" ON public.newsletter_abonnes FOR ALL USING (true) WITH CHECK (true);
 
 -- Reactions & Affiliation
+DROP POLICY IF EXISTS "Insertion reactions" ON public.reactions;
 CREATE POLICY "Insertion reactions" ON public.reactions FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Lecture reactions" ON public.reactions;
 CREATE POLICY "Lecture reactions" ON public.reactions FOR SELECT USING (true);
 
-CREATE POLICY "Lecture liens affiliation" ON public.liens_affiliation FOR SELECT USING (true);
-CREATE POLICY "Admin full access liens affiliation" ON public.liens_affiliation FOR ALL TO authenticated USING (true);
+DROP POLICY IF EXISTS "Public full access liens affiliation" ON public.liens_affiliation;
+CREATE POLICY "Public full access liens affiliation" ON public.liens_affiliation FOR ALL USING (true) WITH CHECK (true);
 
-CREATE POLICY "Lecture config monetisation" ON public.config_monetisation FOR SELECT USING (true);
-CREATE POLICY "Admin full access config monetisation" ON public.config_monetisation FOR ALL TO authenticated USING (true);
+DROP POLICY IF EXISTS "Public full access config monetisation" ON public.config_monetisation;
+CREATE POLICY "Public full access config monetisation" ON public.config_monetisation FOR ALL USING (true) WITH CHECK (true);

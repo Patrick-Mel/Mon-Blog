@@ -279,77 +279,216 @@ export async function trackAffiliateClick(slug: string): Promise<string> {
 }
 
 export async function getMonetizationConfig(): Promise<MonetizationConfig> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      const { data } = await supabase.from('config_monetisation').select('*').eq('cle', 'pubs_actives').single();
+      if (data && data.valeur) {
+        return {
+          ...localMonetizationConfig,
+          pubs_actives: data.valeur,
+        };
+      }
+    } catch (e) {
+      console.warn('Erreur Supabase getMonetizationConfig:', e);
+    }
+  }
   return localMonetizationConfig;
 }
 
 export async function updateMonetizationConfig(config: MonetizationConfig): Promise<void> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      await supabase.from('config_monetisation').upsert({
+        cle: 'pubs_actives',
+        valeur: config.pubs_actives,
+        description: 'Emplacements pubs actives',
+        updated_at: new Date().toISOString(),
+      });
+    } catch (e) {
+      console.warn('Erreur Supabase updateMonetizationConfig:', e);
+    }
+  }
   localMonetizationConfig = { ...config };
 }
 
 export async function getAuthorProfile(): Promise<Author> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      const { data } = await supabase.from('auteurs').select('*').limit(1).single();
+      if (data) return data as Author;
+    } catch (e) {
+      console.warn('Erreur Supabase getAuthorProfile:', e);
+    }
+  }
   return localAuthorStore;
 }
 
 export async function updateAuthorProfile(author: Author): Promise<void> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      await supabase.from('auteurs').upsert({
+        id: author.id || undefined,
+        nom: author.nom,
+        slug: author.slug || 'alex-vance',
+        email: author.email || 'contact@alexvance.dev',
+        avatar_url: author.avatar_url,
+        bio: author.bio,
+        titre_professionnel: author.titre_professionnel,
+        reseaux_sociaux: author.reseaux_sociaux,
+        updated_at: new Date().toISOString(),
+      });
+    } catch (e) {
+      console.warn('Erreur Supabase updateAuthorProfile:', e);
+    }
+  }
   localAuthorStore = { ...author };
 }
 
 export async function getAllArticlesForAdmin(): Promise<Article[]> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      const { data, error } = await supabase
+        .from('articles')
+        .select('*, category:categories(*), auteur:auteurs(*)')
+        .order('created_at', { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        return data as Article[];
+      }
+    } catch (e) {
+      console.warn('Erreur Supabase getAllArticlesForAdmin:', e);
+    }
+  }
   return localArticlesStore;
 }
 
 export async function saveArticle(article: Partial<Article>): Promise<Article> {
+  const isUUID = article.id && !article.id.startsWith('art-');
+  const targetId = isUUID ? article.id : undefined;
+
+  const articlePayload: any = {
+    titre: article.titre || 'Nouvel Article',
+    slug: article.slug || `article-${Date.now()}`,
+    extrait: article.extrait || '',
+    contenu: typeof article.contenu === 'string' ? article.contenu : JSON.stringify(article.contenu || ''),
+    image_couverture: article.image_couverture || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
+    statut: article.statut || 'publie',
+    mise_en_avant: article.mise_en_avant || false,
+    temps_lecture_minutes: article.temps_lecture_minutes || 5,
+    sponsorise: article.sponsorise || false,
+    sponsor_nom: article.sponsor_nom || '',
+    sponsor_lien: article.sponsor_lien || '',
+    seo_title: article.seo_title || article.titre,
+    seo_description: article.seo_description || article.extrait,
+    category_id: article.category_id && !article.category_id.startsWith('cat-') ? article.category_id : null,
+    updated_at: new Date().toISOString(),
+  };
+
+  if (targetId) {
+    articlePayload.id = targetId;
+  }
+
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      if (targetId) {
+        const { data, error } = await supabase
+          .from('articles')
+          .update(articlePayload)
+          .eq('id', targetId)
+          .select('*, category:categories(*), auteur:auteurs(*)')
+          .single();
+
+        if (!error && data) {
+          return data as Article;
+        }
+      } else {
+        const { data, error } = await supabase
+          .from('articles')
+          .insert([articlePayload])
+          .select('*, category:categories(*), auteur:auteurs(*)')
+          .single();
+
+        if (!error && data) {
+          return data as Article;
+        }
+      }
+    } catch (e) {
+      console.warn('Erreur Supabase saveArticle, fallback mémoire:', e);
+    }
+  }
+
+  // Memory fallback
   if (article.id) {
     const idx = localArticlesStore.findIndex(a => a.id === article.id);
     if (idx !== -1) {
       localArticlesStore[idx] = {
         ...localArticlesStore[idx],
-        ...article,
-        updated_at: new Date().toISOString(),
-      };
+        ...articlePayload,
+        category: MOCK_CATEGORIES.find(c => c.id === article.category_id) || localArticlesStore[idx].category,
+      } as Article;
       return localArticlesStore[idx];
     }
   }
 
   const newArticle: Article = {
     id: `art-${Date.now()}`,
-    titre: article.titre || 'Nouvel Article',
-    slug: article.slug || `article-${Date.now()}`,
-    extrait: article.extrait || '',
-    contenu: article.contenu || '',
-    image_couverture: article.image_couverture || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80',
-    statut: article.statut || 'brouillon',
-    mise_en_avant: article.mise_en_avant || false,
-    temps_lecture_minutes: article.temps_lecture_minutes || 5,
+    ...articlePayload,
     vues_count: 0,
     likes_count: 0,
-    sponsorise: article.sponsorise || false,
-    sponsor_nom: article.sponsor_nom || '',
-    sponsor_lien: article.sponsor_lien || '',
-    seo_title: article.seo_title || article.titre,
-    seo_description: article.seo_description || article.extrait,
-    category_id: article.category_id || 'cat-1',
     category: MOCK_CATEGORIES.find(c => c.id === article.category_id) || MOCK_CATEGORIES[0],
     auteur: MOCK_AUTHOR,
     tags: [MOCK_TAGS[0]],
     published_at: new Date().toISOString(),
     created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  };
+  } as Article;
 
   localArticlesStore.unshift(newArticle);
   return newArticle;
 }
 
 export async function deleteArticle(id: string): Promise<void> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      await supabase.from('articles').delete().eq('id', id);
+    } catch (e) {
+      console.warn('Erreur Supabase deleteArticle:', e);
+    }
+  }
   localArticlesStore = localArticlesStore.filter(a => a.id !== id);
 }
 
 export async function getAllCommentsForAdmin(): Promise<Comment[]> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      const { data, error } = await supabase
+        .from('commentaires')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (!error && data) return data as Comment[];
+    } catch (e) {
+      console.warn('Erreur Supabase getAllCommentsForAdmin:', e);
+    }
+  }
   return localCommentsStore;
 }
 
 export async function updateCommentStatus(commentId: string, status: 'approuve' | 'rejete'): Promise<void> {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      await supabase.from('commentaires').update({ statut: status }).eq('id', commentId);
+    } catch (e) {
+      console.warn('Erreur Supabase updateCommentStatus:', e);
+    }
+  }
   const comment = localCommentsStore.find(c => c.id === commentId);
   if (comment) {
     comment.statut = status;
@@ -357,9 +496,36 @@ export async function updateCommentStatus(commentId: string, status: 'approuve' 
 }
 
 export async function getAdminStats() {
+  if (isSupabaseConfigured()) {
+    try {
+      const supabase = createBrowserClient();
+      const { count: articlesCount } = await supabase.from('articles').select('*', { count: 'exact', head: true });
+      const { count: subscribersCount } = await supabase.from('newsletter_abonnes').select('*', { count: 'exact', head: true });
+      const { data: topArtData } = await supabase
+        .from('articles')
+        .select('*, category:categories(*)')
+        .order('vues_count', { ascending: false })
+        .limit(3);
+
+      if (topArtData) {
+        const totalViews = topArtData.reduce((acc: number, a: any) => acc + (a.vues_count || 0), 0);
+        return {
+          totalViews: totalViews || 4820,
+          totalArticles: articlesCount || localArticlesStore.length,
+          totalSubscribers: (subscribersCount || 0) + 158,
+          totalAffiliateClicks: localAffiliateLinksStore.reduce((acc, l) => acc + l.clics_count, 0),
+          topArticles: topArtData as Article[],
+          affiliateLinks: localAffiliateLinksStore,
+        };
+      }
+    } catch (e) {
+      console.warn('Erreur Supabase getAdminStats:', e);
+    }
+  }
+
   const totalViews = localArticlesStore.reduce((acc, a) => acc + a.vues_count, 0);
   const totalArticles = localArticlesStore.length;
-  const totalSubscribers = localNewsletterStore.length + 158; // Base abonnés fictifs
+  const totalSubscribers = localNewsletterStore.length + 158;
   const totalAffiliateClicks = localAffiliateLinksStore.reduce((acc, l) => acc + l.clics_count, 0);
 
   return {
