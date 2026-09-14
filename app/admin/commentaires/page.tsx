@@ -39,7 +39,7 @@ export default function AdminCommentsPage() {
       </div>
 
       {/* Filter bar */}
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {(['tous', 'en_attente', 'approuve', 'rejete'] as const).map(f => (
           <button
             key={f}
@@ -66,12 +66,12 @@ export default function AdminCommentsPage() {
             <div key={comment.id} className="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs">
+                  <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xs shrink-0">
                     {comment.auteur_nom.charAt(0).toUpperCase()}
                   </div>
-                  <div>
-                    <div className="text-xs font-bold text-slate-900 dark:text-white">{comment.auteur_nom}</div>
-                    <div className="text-[10px] text-slate-500 dark:text-slate-400">{comment.auteur_email}</div>
+                  <div className="min-w-0">
+                    <div className="text-xs font-bold text-slate-900 dark:text-white truncate">{comment.auteur_nom}</div>
+                    <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate">{comment.auteur_email}</div>
                   </div>
                 </div>
 
@@ -98,7 +98,7 @@ export default function AdminCommentsPage() {
                 "{comment.contenu}"
               </p>
 
-              <div className="flex items-center justify-between pt-2 border-t border-slate-200 dark:border-slate-800">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-2 border-t border-slate-200 dark:border-slate-800">
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
                   Publié le {new Date(comment.created_at).toLocaleDateString('fr-FR')}
                 </span>

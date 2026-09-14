@@ -10,10 +10,10 @@ export default async function AdminArticlesListPage() {
   const articles = await getAllArticlesForAdmin();
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 max-w-7xl mx-auto">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-slate-900 dark:text-white">Gestion des Articles</h1>
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white">Gestion des Articles</h1>
           <p className="text-xs text-slate-600 dark:text-slate-400">Créer, modifier et programmer vos publications</p>
         </div>
 
@@ -26,8 +26,8 @@ export default async function AdminArticlesListPage() {
       </div>
 
       <div className="glass rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xl">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left text-xs min-w-[600px]">
             <thead className="bg-slate-100 dark:bg-slate-900/90 text-slate-700 dark:text-slate-400 uppercase border-b border-slate-200 dark:border-slate-800">
               <tr>
                 <th className="p-4 font-semibold">Article</th>
@@ -46,11 +46,11 @@ export default async function AdminArticlesListPage() {
                       <img
                         src={article.image_couverture}
                         alt={article.titre}
-                        className="w-12 h-10 rounded-lg object-cover border border-slate-200 dark:border-slate-700 shadow-sm"
+                        className="w-12 h-10 rounded-lg object-cover border border-slate-200 dark:border-slate-700 shadow-sm shrink-0"
                       />
-                      <div>
-                        <div className="font-bold text-slate-900 dark:text-white max-w-sm truncate">{article.titre}</div>
-                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">/blog/{article.slug}</div>
+                      <div className="min-w-0">
+                        <div className="font-bold text-slate-900 dark:text-white max-w-[180px] sm:max-w-xs md:max-w-sm truncate">{article.titre}</div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-mono truncate max-w-[180px] sm:max-w-xs">/blog/{article.slug}</div>
                       </div>
                     </div>
                   </td>

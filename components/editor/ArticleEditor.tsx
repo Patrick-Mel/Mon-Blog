@@ -102,7 +102,7 @@ export function ArticleEditor({ initialArticle, categories }: ArticleEditorProps
   return (
     <div className="space-y-8 max-w-5xl mx-auto pb-16">
       {/* Top action bar */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <button
           onClick={() => router.push('/admin/articles')}
           className="text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1.5"
@@ -110,7 +110,7 @@ export function ArticleEditor({ initialArticle, categories }: ArticleEditorProps
           <ArrowLeft className="w-4 h-4" /> Annuler et retourner
         </button>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-between sm:justify-end">
           {savedSuccess && (
             <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
               <CheckCircle2 className="w-4 h-4" /> Enregistré !

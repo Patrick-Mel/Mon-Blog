@@ -58,10 +58,10 @@ export default function AdminMonetizationPage() {
 
   return (
     <div className="space-y-8 max-w-5xl mx-auto">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-            <DollarSign className="w-6 h-6 text-amber-500 dark:text-amber-400" /> Monétisation & Feature Flags
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+            <DollarSign className="w-6 h-6 text-amber-500 dark:text-amber-400 shrink-0" /> Monétisation & Feature Flags
           </h1>
           <p className="text-xs text-slate-600 dark:text-slate-400">
             Activez ou désactivez en 1 clic chaque emplacement publicitaire, sponsoring et prestation.
@@ -70,7 +70,7 @@ export default function AdminMonetizationPage() {
 
         <button
           onClick={handleSave}
-          className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center gap-2"
+          className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs shadow-lg shadow-amber-500/20 transition-all flex items-center gap-2 shrink-0"
         >
           {isSaved ? <CheckCircle2 className="w-4 h-4 text-slate-950" /> : <Save className="w-4 h-4" />}
           <span>{isSaved ? 'Modifications Enregistrées !' : 'Sauvegarder Réglages'}</span>
