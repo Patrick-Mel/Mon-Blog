@@ -12,12 +12,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-200 dark:border-slate-800/80">
           {/* Col 1: Brand */}
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                S
-              </div>
+            <Link href="/" className="flex items-center gap-3 group">
+              <img
+                src="/logo.jpg"
+                alt="My blog Logo"
+                className="w-10 h-10 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-md group-hover:scale-105 transition-transform"
+              />
               <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                SOVA<span className="text-blue-600 dark:text-blue-500">.</span>
+                My blog<span className="text-blue-600 dark:text-blue-500">.</span>
               </span>
             </Link>
             <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-400 max-w-sm">
@@ -130,7 +132,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 dark:text-slate-400 gap-4">
           <div>
-            © {new Date().getFullYear()} SOVA Blog (Alex Vance). Tous droits réservés. Développé avec Next.js & Supabase.
+            © {new Date().getFullYear()} My blog (Alex Vance). Tous droits réservés. Développé avec Next.js & Supabase.
           </div>
           <div className="flex items-center gap-4">
             <a href="/api/rss" className="hover:text-slate-900 dark:hover:text-slate-200">

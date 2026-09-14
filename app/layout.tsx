@@ -17,25 +17,28 @@ const outfit = Outfit({
 
 export const metadata: Metadata = {
   title: {
-    default: 'SOVA — Blog Tech, Web Dev & UI/UX Design',
-    template: '%s | SOVA Blog',
+    default: 'My blog — Tech, Web Dev & UI/UX Design',
+    template: '%s | My blog',
   },
-  description: 'Blog d\'un Développeur Full-Stack (Next.js, Python, Supabase) et Designer UI/UX. Tutoriels d\'élite, astuces design, retours d\'expérience et prestations.',
-  keywords: ['Next.js', 'Supabase', 'Python', 'Django', 'TailwindCSS', 'UI/UX Design', 'Photoshop', 'TypeScript', 'Web Development'],
+  description: 'My blog — Blog d\'un Développeur Full-Stack (Next.js, Python, Supabase, Réseaux) et Designer UI/UX. Tutoriels d\'élite, astuces design, retours d\'expérience et prestations.',
+  keywords: ['Next.js', 'Supabase', 'Python', 'Django', 'Réseaux', 'TCP/IP', 'TailwindCSS', 'UI/UX Design', 'Photoshop', 'TypeScript', 'Web Development'],
   authors: [{ name: 'Alex Vance', url: 'https://alexvance.dev' }],
+  icons: {
+    icon: '/logo.jpg',
+  },
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
     url: 'https://alexvance.dev',
-    siteName: 'SOVA Blog Tech & Design',
-    title: 'SOVA — Blog Tech, Web Dev & UI/UX Design',
-    description: 'Tutoriels d\'exception Next.js, Supabase, Python et Design UI/UX.',
-    images: [{ url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80', width: 1200, height: 630 }],
+    siteName: 'My blog',
+    title: 'My blog — Tech, Web Dev & UI/UX Design',
+    description: 'Tutoriels d\'exception Next.js, Supabase, Réseaux, Python et Design UI/UX.',
+    images: [{ url: '/logo.jpg', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'SOVA — Blog Tech & UI/UX',
-    description: 'Tutoriels d\'exception Next.js, Supabase, Python et Design UI/UX.',
+    title: 'My blog — Tech & UI/UX',
+    description: 'Tutoriels d\'exception Next.js, Supabase, Réseaux, Python et Design UI/UX.',
     creator: '@alexvance_dev',
   },
 };

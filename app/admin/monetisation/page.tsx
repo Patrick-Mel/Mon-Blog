@@ -57,10 +57,10 @@ export default function AdminMonetizationPage() {
     <div className="space-y-8 max-w-5xl mx-auto">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-black text-white flex items-center gap-2">
-            <DollarSign className="w-6 h-6 text-amber-400" /> Monétisation & Feature Flags
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
+            <DollarSign className="w-6 h-6 text-amber-500 dark:text-amber-400" /> Monétisation & Feature Flags
           </h1>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-600 dark:text-slate-400">
             Activez ou désactivez en 1 clic chaque emplacement publicitaire, sponsoring et prestation.
           </p>
         </div>
@@ -76,122 +76,122 @@ export default function AdminMonetizationPage() {
 
       {/* Revenue Statistics Summary */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        <div className="glass p-6 rounded-2xl border border-slate-800">
-          <div className="text-xs text-slate-400 mb-1 font-semibold">Clics Liens d'Affiliation</div>
-          <div className="text-2xl font-black text-amber-400">{stats.totalAffiliateClicks} clics</div>
-          <div className="text-[10px] text-slate-500 mt-1">Trackés via route /go/[slug]</div>
+        <div className="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80">
+          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1 font-semibold">Clics Liens d'Affiliation</div>
+          <div className="text-2xl font-black text-amber-600 dark:text-amber-400">{stats.totalAffiliateClicks} clics</div>
+          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Trackés via route /go/[slug]</div>
         </div>
 
-        <div className="glass p-6 rounded-2xl border border-slate-800">
-          <div className="text-xs text-slate-400 mb-1 font-semibold">Emplacements Pubs Actifs</div>
-          <div className="text-2xl font-black text-emerald-400">
+        <div className="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80">
+          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1 font-semibold">Emplacements Pubs Actifs</div>
+          <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
             {Object.values(config.pubs_actives).filter(Boolean).length} / 4
           </div>
-          <div className="text-[10px] text-slate-500 mt-1">Contrôlés sans toucher au code</div>
+          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Contrôlés sans toucher au code</div>
         </div>
 
-        <div className="glass p-6 rounded-2xl border border-slate-800">
-          <div className="text-xs text-slate-400 mb-1 font-semibold">Abonnés Newsletter</div>
-          <div className="text-2xl font-black text-indigo-400">{stats.totalSubscribers} abonnés</div>
-          <div className="text-[10px] text-slate-500 mt-1">Potentiel Sponsoring Email</div>
+        <div className="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80">
+          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1 font-semibold">Abonnés Newsletter</div>
+          <div className="text-2xl font-black text-indigo-600 dark:text-indigo-400">{stats.totalSubscribers} abonnés</div>
+          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Potentiel Sponsoring Email</div>
         </div>
       </div>
 
       {/* Feature Flags: Native Ads Toggles */}
-      <div className="glass p-6 rounded-2xl border border-slate-800 space-y-6">
-        <h3 className="text-base font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
-          <Sparkles className="w-4 h-4 text-amber-400" /> Emplacements Publicitaires Négociés (Native Display Ads)
+      <div className="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 space-y-6">
+        <h3 className="text-base font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-3 flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-amber-500 dark:text-amber-400" /> Emplacements Publicitaires Négociés (Native Display Ads)
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-white">Bannière En-tête (Header Ad)</div>
-              <div className="text-[11px] text-slate-400">Affiche la barre de notification tout en haut du site</div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Bannière En-tête (Header Ad)</div>
+              <div className="text-[11px] text-slate-600 dark:text-slate-400">Affiche la barre de notification tout en haut du site</div>
             </div>
             <button
               onClick={() => handleToggleAd('header')}
-              className="text-amber-400 hover:scale-105 transition-transform"
+              className="text-amber-500 hover:scale-105 transition-transform"
             >
-              {config.pubs_actives.header ? <ToggleRight className="w-8 h-8 text-amber-500" /> : <ToggleLeft className="w-8 h-8 text-slate-600" />}
+              {config.pubs_actives.header ? <ToggleRight className="w-8 h-8 text-amber-500" /> : <ToggleLeft className="w-8 h-8 text-slate-400 dark:text-slate-600" />}
             </button>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-white">Bannière Sidebar Article</div>
-              <div className="text-[11px] text-slate-400">Widget d'annonce dans la barre latérale des articles</div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Bannière Sidebar Article</div>
+              <div className="text-[11px] text-slate-600 dark:text-slate-400">Widget d'annonce dans la barre latérale des articles</div>
             </div>
             <button
               onClick={() => handleToggleAd('sidebar')}
-              className="text-amber-400 hover:scale-105 transition-transform"
+              className="text-amber-500 hover:scale-105 transition-transform"
             >
-              {config.pubs_actives.sidebar ? <ToggleRight className="w-8 h-8 text-amber-500" /> : <ToggleLeft className="w-8 h-8 text-slate-600" />}
+              {config.pubs_actives.sidebar ? <ToggleRight className="w-8 h-8 text-amber-500" /> : <ToggleLeft className="w-8 h-8 text-slate-400 dark:text-slate-600" />}
             </button>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-white">Bannière Au milieu de l'article</div>
-              <div className="text-[11px] text-slate-400">Insérée entre les paragraphes principaux</div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Bannière Au milieu de l'article</div>
+              <div className="text-[11px] text-slate-600 dark:text-slate-400">Insérée entre les paragraphes principaux</div>
             </div>
             <button
               onClick={() => handleToggleAd('in_article')}
-              className="text-amber-400 hover:scale-105 transition-transform"
+              className="text-amber-500 hover:scale-105 transition-transform"
             >
-              {config.pubs_actives.in_article ? <ToggleRight className="w-8 h-8 text-amber-500" /> : <ToggleLeft className="w-8 h-8 text-slate-600" />}
+              {config.pubs_actives.in_article ? <ToggleRight className="w-8 h-8 text-amber-500" /> : <ToggleLeft className="w-8 h-8 text-slate-400 dark:text-slate-600" />}
             </button>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-white">Bannière Fin d'article</div>
-              <div className="text-[11px] text-slate-400">Appel à l'action partenaire en bas de page</div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Bannière Fin d'article</div>
+              <div className="text-[11px] text-slate-600 dark:text-slate-400">Appel à l'action partenaire en bas de page</div>
             </div>
             <button
               onClick={() => handleToggleAd('bottom_article')}
-              className="text-amber-400 hover:scale-105 transition-transform"
+              className="text-amber-500 hover:scale-105 transition-transform"
             >
-              {config.pubs_actives.bottom_article ? <ToggleRight className="w-8 h-8 text-amber-500" /> : <ToggleLeft className="w-8 h-8 text-slate-600" />}
+              {config.pubs_actives.bottom_article ? <ToggleRight className="w-8 h-8 text-amber-500" /> : <ToggleLeft className="w-8 h-8 text-slate-400 dark:text-slate-600" />}
             </button>
           </div>
         </div>
       </div>
 
       {/* Services Disponibles Toggles */}
-      <div className="glass p-6 rounded-2xl border border-slate-800 space-y-6">
-        <h3 className="text-base font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" /> Disponibilité des Prestations Freelance
+      <div className="glass p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 space-y-6">
+        <h3 className="text-base font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-3 flex items-center gap-2">
+          <ShieldCheck className="w-4 h-4 text-emerald-500 dark:text-emerald-400" /> Disponibilité des Prestations Freelance
         </h3>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-white">Développement Web</div>
-              <div className="text-[10px] text-slate-400">SaaS & Applications Next.js</div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Développement Web</div>
+              <div className="text-[10px] text-slate-600 dark:text-slate-400">SaaS & Applications Next.js</div>
             </div>
             <button onClick={() => handleToggleService('dev_web')}>
-              {config.services_disponibles.dev_web ? <ToggleRight className="w-8 h-8 text-emerald-500" /> : <ToggleLeft className="w-8 h-8 text-slate-600" />}
+              {config.services_disponibles.dev_web ? <ToggleRight className="w-8 h-8 text-emerald-500" /> : <ToggleLeft className="w-8 h-8 text-slate-400 dark:text-slate-600" />}
             </button>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-white">UI/UX & Photoshop</div>
-              <div className="text-[10px] text-slate-400">Design System & Graphisme</div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">UI/UX & Photoshop</div>
+              <div className="text-[10px] text-slate-600 dark:text-slate-400">Design System & Graphisme</div>
             </div>
             <button onClick={() => handleToggleService('ui_ux_design')}>
-              {config.services_disponibles.ui_ux_design ? <ToggleRight className="w-8 h-8 text-emerald-500" /> : <ToggleLeft className="w-8 h-8 text-slate-600" />}
+              {config.services_disponibles.ui_ux_design ? <ToggleRight className="w-8 h-8 text-emerald-500" /> : <ToggleLeft className="w-8 h-8 text-slate-400 dark:text-slate-600" />}
             </button>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+          <div className="p-4 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-white">Audit & Consulting</div>
-              <div className="text-[10px] text-slate-400">Performance & SEO</div>
+              <div className="text-xs font-bold text-slate-900 dark:text-white">Audit & Consulting</div>
+              <div className="text-[10px] text-slate-600 dark:text-slate-400">Performance & SEO</div>
             </div>
             <button onClick={() => handleToggleService('consulting')}>
-              {config.services_disponibles.consulting ? <ToggleRight className="w-8 h-8 text-emerald-500" /> : <ToggleLeft className="w-8 h-8 text-slate-600" />}
+              {config.services_disponibles.consulting ? <ToggleRight className="w-8 h-8 text-emerald-500" /> : <ToggleLeft className="w-8 h-8 text-slate-400 dark:text-slate-600" />}
             </button>
           </div>
         </div>

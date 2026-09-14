@@ -22,8 +22,8 @@ export default async function EditArticlePage({ params }: EditArticlePageProps) 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-black text-white">Modifier l'Article</h1>
-        <p className="text-xs text-slate-400">Éditeur riche Tiptap — ID: {article.id}</p>
+        <h1 className="text-2xl font-black text-slate-900 dark:text-white">Modifier l'Article</h1>
+        <p className="text-xs text-slate-600 dark:text-slate-400">Éditeur riche Tiptap — ID: {article.id}</p>
       </div>
 
       <ArticleEditor initialArticle={article} categories={categories} />

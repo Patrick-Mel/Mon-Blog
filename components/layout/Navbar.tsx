@@ -24,14 +24,16 @@ export function Navbar() {
     <>
       <header className="sticky top-0 z-40 w-full glass border-b border-slate-200 dark:border-slate-800/80 transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
-              S
-            </div>
+          {/* Logo with uploaded winged heart image */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <img
+              src="/logo.jpg"
+              alt="My blog Logo"
+              className="w-10 h-10 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-md group-hover:scale-105 transition-transform"
+            />
             <div className="flex flex-col">
-              <span className="text-lg font-black tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                SOVA<span className="text-blue-600 dark:text-blue-500">.</span>
+              <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                My blog<span className="text-blue-600 dark:text-blue-500">.</span>
               </span>
               <span className="text-[10px] text-slate-500 dark:text-slate-400 -mt-1 font-medium tracking-widest uppercase">
                 Dev & Graphic
