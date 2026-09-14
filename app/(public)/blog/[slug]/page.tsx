@@ -87,22 +87,22 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
             )}
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-tight tracking-tight">
+          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-black text-slate-900 dark:text-white leading-tight tracking-tight">
             {article.titre}
           </h1>
 
-          <p className="text-slate-600 dark:text-slate-300 text-base sm:text-xl leading-relaxed">
+          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-xl leading-relaxed">
             {article.extrait}
           </p>
 
           {/* Author & Meta bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 py-4 border-y border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 py-4 border-y border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
             <div className="flex items-center gap-3">
               {article.auteur?.avatar_url && (
                 <img
                   src={article.auteur.avatar_url}
                   alt={article.auteur.nom}
-                  className="w-10 h-10 rounded-full object-cover border border-slate-300 dark:border-slate-700 shadow-md"
+                  className="w-10 h-10 rounded-full object-cover border border-slate-300 dark:border-slate-700 shadow-md shrink-0"
                 />
               )}
               <div>
@@ -111,15 +111,15 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
               <span className="flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" /> {formattedDate}
+                <Calendar className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" /> {formattedDate}
               </span>
               <span className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" /> {article.temps_lecture_minutes} min de lecture
+                <Clock className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" /> {article.temps_lecture_minutes} min de lecture
               </span>
               <span className="flex items-center gap-1">
-                <Eye className="w-3.5 h-3.5 text-pink-600 dark:text-pink-400" /> {article.vues_count} vues
+                <Eye className="w-3.5 h-3.5 text-pink-600 dark:text-pink-400 shrink-0" /> {article.vues_count} vues
               </span>
             </div>
           </div>

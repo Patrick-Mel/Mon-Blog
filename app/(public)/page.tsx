@@ -27,26 +27,26 @@ export default async function HomePage() {
             <span>Développeur Web & Designer UI/UX Full-Stack</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-6">
+          <h1 className="text-3xl sm:text-6xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1] mb-6">
             Ingénierie Logicielle <br className="hidden sm:inline" />
             & <span className="text-gradient">Design d'Exception</span>
           </h1>
 
-          <p className="text-base sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed mb-10">
+          <p className="text-sm sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed mb-8 sm:mb-10">
             Bienvenue sur mon espace de publication. J'explore l'architecture des applications modernes (Next.js, Supabase, Python, Réseaux) et la création d'interfaces graphiques marquantes.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             <Link
               href="/blog"
-              className="px-6 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-xl shadow-blue-600/30 transition-all flex items-center gap-2"
+              className="px-5 sm:px-6 py-3 sm:py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs sm:text-sm shadow-xl shadow-blue-600/30 transition-all flex items-center gap-2"
             >
               <span>Explorer les Articles</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               href="/services"
-              className="px-6 py-3.5 rounded-2xl glass hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold text-sm border border-slate-300 dark:border-slate-700 transition-all flex items-center gap-2"
+              className="px-5 sm:px-6 py-3 sm:py-3.5 rounded-2xl glass hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm border border-slate-300 dark:border-slate-700 transition-all flex items-center gap-2"
             >
               <Palette className="w-4 h-4 text-pink-600 dark:text-pink-400" />
               <span>Travailler avec moi</span>
@@ -54,21 +54,21 @@ export default async function HomePage() {
           </div>
 
           {/* Tech Badges */}
-          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800/60 max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-slate-600 dark:text-slate-400">
+          <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-slate-200 dark:border-slate-800/60 max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-[11px] sm:text-xs font-mono text-slate-600 dark:text-slate-400">
             <span className="flex items-center gap-1.5 text-slate-800 dark:text-slate-300">
-              <Code className="w-4 h-4 text-blue-500" /> Next.js 15
+              <Code className="w-4 h-4 text-blue-500 shrink-0" /> Next.js 15
             </span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-slate-800 dark:text-slate-300">
-              <Layers className="w-4 h-4 text-emerald-500" /> Supabase RLS
+              <Layers className="w-4 h-4 text-emerald-500 shrink-0" /> Supabase RLS
             </span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-slate-800 dark:text-slate-300">
-              <Terminal className="w-4 h-4 text-amber-500" /> Réseaux & Python
+              <Terminal className="w-4 h-4 text-amber-500 shrink-0" /> Réseaux & Python
             </span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5 text-slate-800 dark:text-slate-300">
-              <Zap className="w-4 h-4 text-pink-500" /> UI/UX & Photoshop
+              <Zap className="w-4 h-4 text-pink-500 shrink-0" /> UI/UX & Photoshop
             </span>
           </div>
         </div>
